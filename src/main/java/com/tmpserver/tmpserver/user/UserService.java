@@ -1,6 +1,6 @@
 package com.tmpserver.tmpserver.user;
 
-import com.tmpserver.tmpserver.mock.MockedUserRepository;
+import com.tmpserver.tmpserver.mock.UserRepositoryMocked;
 import com.tmpserver.tmpserver.request.SignInRequest;
 import com.tmpserver.tmpserver.request.SignUpRequest;
 import org.springframework.stereotype.Service;
@@ -11,10 +11,10 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final MockedUserRepository userRepository;
+    private final UserRepositoryMocked userRepository;
 
     public UserService() {
-        userRepository = new MockedUserRepository();
+        userRepository = new UserRepositoryMocked();
     }
 
     public List<User> getUsers() {

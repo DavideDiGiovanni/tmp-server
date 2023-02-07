@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MockedUserRepository {
+public class UserRepositoryMocked {
 
     private final List<User> studentList;
 
-    public MockedUserRepository() {
+    public UserRepositoryMocked() {
         studentList = new ArrayList<>(List.of(
                 new User(
                         "davide.digiovanni@sysconsgroup.com",
