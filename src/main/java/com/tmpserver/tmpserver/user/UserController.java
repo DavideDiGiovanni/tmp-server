@@ -20,21 +20,24 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("public/getUsers")
+    @GetMapping("getusers")
     public List<User> getUsers() {
+        System.out.println("get users");
         return userService.getUsers();
     }
 
-    @PostMapping("public/signup")
+    @PostMapping("signup")
     public void signUp(HttpServletRequest request,
                        @Valid @RequestBody SignUpRequest signUpRequest) {
 
         userService.addNewUser(signUpRequest);
     }
 
-    @GetMapping("public/signin)")
+    @GetMapping("signin)")
     public User signIn(HttpServletRequest request,
                        @Valid @RequestBody SignInRequest signInRequest) {
+
+        System.out.println("signin");
 
         return userService.getUser(signInRequest);
     }
