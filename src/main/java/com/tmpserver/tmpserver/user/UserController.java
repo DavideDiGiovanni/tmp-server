@@ -2,12 +2,12 @@ package com.tmpserver.tmpserver.user;
 
 import com.tmpserver.tmpserver.request.SignInRequest;
 import com.tmpserver.tmpserver.request.SignUpRequest;
+import com.tmpserver.tmpserver.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/user")
@@ -21,20 +21,31 @@ public class UserController {
     }
 
     @GetMapping("getusers")
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public ResponseEntity<ApiResponse> getUsers(HttpServletRequest request) {
+        ApiResponse response = userService.getUsers();
+        response.setPath(request.getRequestURI());
+
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
     @PostMapping("signup")
-    public void signUp(HttpServletRequest request,
+    public ResponseEntity<ApiResponse> signUp(HttpServletRequest request,
                        @Valid @RequestBody SignUpRequest signUpRequest) {
 
-        userService.addNewUser(signUpRequest);
+        ApiResponse response = userService.addNewUser(signUpRequest);
+        response.setPath(request.getRequestURI());
+
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
-    @GetMapping("signin)")
-    public User signIn(HttpServletRequest request,
-                       @Valid @RequestBody SignInRequest signInRequest) {
-        return userService.getUser(signInRequest);
+    @GetMapping("signin")
+    public ResponseEntity<ApiResponse> signIn(HttpServletRequest request,
+                     @Valid @RequestBody SignInRequest signInRequest) {
+
+        ApiResponse response = userService.getUser(signInRequest);
+        response.setPath(request.getRequestURI());
+
+        return new ResponseEntity<>(response, response.getStatus());
     }
+
 }
