@@ -1,5 +1,6 @@
 package com.tmpserver.tmpserver.user;
 
+import com.tmpserver.tmpserver.request.SignInRequest;
 import com.tmpserver.tmpserver.request.SignUpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,4 +40,20 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User getUser(SignInRequest signInRequest) {
+        String email = signInRequest.getEmail();
+        Optional<User> userOptional = userRepository.findById(email);
+
+        if(userOptional.isEmpty()) {
+            throw  new IllegalStateException("User with email " + email + " does not exist.");
+        }
+
+        User user = userOptional.get();
+
+        if(!user.getPassword().equals(signInRequest.getPassword())) {
+            throw new IllegalArgumentException("Wrong password");
+        }
+
+        return user;
+    }
 }

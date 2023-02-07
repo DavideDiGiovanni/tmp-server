@@ -1,5 +1,6 @@
 package com.tmpserver.tmpserver.user;
 
+import com.tmpserver.tmpserver.request.SignInRequest;
 import com.tmpserver.tmpserver.request.SignUpRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -29,5 +30,12 @@ public class UserController {
                        @Valid @RequestBody SignUpRequest signUpRequest) {
 
         userService.addNewUser(signUpRequest);
+    }
+
+    @GetMapping("public/signin)")
+    public User signIn(HttpServletRequest request,
+                       @Valid @RequestBody SignInRequest signInRequest) {
+
+        return userService.getUser(signInRequest);
     }
 }
