@@ -22,7 +22,6 @@ public class UserController {
 
     @GetMapping("getusers")
     public List<User> getUsers() {
-        System.out.println("get users");
         return userService.getUsers();
     }
 
@@ -36,9 +35,6 @@ public class UserController {
     @GetMapping("signin)")
     public User signIn(HttpServletRequest request,
                        @Valid @RequestBody SignInRequest signInRequest) {
-
-        System.out.println("signin");
-
         return userService.getUser(signInRequest);
     }
 }
