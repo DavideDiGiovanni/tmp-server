@@ -11,20 +11,32 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    private List<User> studentList;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService() {
+        studentList = List.of(
+            new User(
+                    "davide.digiovanni@sysconsgroup.com",
+                    "Davide",
+                    "Di Giovanni",
+                    "password12"
+            ),
+            new User(
+                    "marco.baratto@sysconsgroup.com",
+                    "Marco",
+                    "Baratto",
+                    "password34"
+            )
+        );
     }
 
     public List<User> getUsers() {
-        return userRepository.findAll();
+        return studentList;
     }
 
     public void addNewUser(SignUpRequest signUpRequest) {
         String email = signUpRequest.getEmail();
-        Optional<User> userOptional = userRepository.findById(email);
+        Optional<User> userOptional = this.findByEmail(email);
 
         if(userOptional.isPresent()) {
             throw new IllegalStateException("User with email " + email + " already exists.");
@@ -37,12 +49,12 @@ public class UserService {
                 signUpRequest.getPassword()
         );
 
-        userRepository.save(user);
+        studentList.add(user);
     }
 
     public User getUser(SignInRequest signInRequest) {
         String email = signInRequest.getEmail();
-        Optional<User> userOptional = userRepository.findById(email);
+        Optional<User> userOptional = this.findByEmail(email);
 
         if(userOptional.isEmpty()) {
             throw  new IllegalStateException("User with email " + email + " does not exist.");
@@ -55,5 +67,11 @@ public class UserService {
         }
 
         return user;
+    }
+
+    private Optional<User> findByEmail(String email) {
+        return studentList.stream()
+                .filter(student -> student.getEmail().equals(email))
+                .findFirst();
     }
 }
