@@ -3,6 +3,7 @@ package com.tmpserver.tmpserver.user;
 import com.tmpserver.tmpserver.mock.UserRepositoryMocked;
 import com.tmpserver.tmpserver.request.SignInRequest;
 import com.tmpserver.tmpserver.request.SignUpRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +12,9 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final UserRepositoryMocked userRepository;
-
-    public UserService() {
-        userRepository = new UserRepositoryMocked();
-    }
+//    private final UserRepositoryMocked userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<User> getUsers() {
         return userRepository.findAll();
