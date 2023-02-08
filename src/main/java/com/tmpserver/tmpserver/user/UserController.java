@@ -1,6 +1,7 @@
 package com.tmpserver.tmpserver.user;
 
-import com.tmpserver.tmpserver.request.SignInGoogleRequest;
+import com.tmpserver.tmpserver.google.GoogleService;
+import com.tmpserver.tmpserver.google.SignInGoogleRequest;
 import com.tmpserver.tmpserver.request.SignInRequest;
 import com.tmpserver.tmpserver.request.SignUpRequest;
 import com.tmpserver.tmpserver.response.ApiResponse;
@@ -19,10 +20,12 @@ public class UserController {
 
     public static final HttpStatus OK = HttpStatus.OK;
     private final UserService userService;
+    private final GoogleService googleService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, GoogleService googleService) {
         this.userService = userService;
+        this.googleService = googleService;
     }
 
     @GetMapping("getusers")
@@ -38,8 +41,9 @@ public class UserController {
     public ResponseEntity<ApiResponse> signInGoogle(HttpServletRequest request,
                                                     @Valid @RequestBody SignInGoogleRequest signInGoogleRequest) {
         String token = signInGoogleRequest.getJwt();
+
         ApiResponse response = new ApiResponse(OK, request);
-        response.setMessage("User with jwt " + token + " signed in.");
+        response.setMessage(googleService.getUser(token));
 
         return new ResponseEntity<>(response, OK);
     }

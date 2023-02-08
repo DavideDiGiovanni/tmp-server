@@ -1,4 +1,4 @@
-package com.tmpserver.tmpserver.request;
+package com.tmpserver.tmpserver.google;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
