@@ -1,5 +1,6 @@
 package com.tmpserver.tmpserver.user;
 
+import com.tmpserver.tmpserver.request.SignInGoogleRequest;
 import com.tmpserver.tmpserver.request.SignInRequest;
 import com.tmpserver.tmpserver.request.SignUpRequest;
 import com.tmpserver.tmpserver.response.ApiResponse;
@@ -29,6 +30,16 @@ public class UserController {
         List<User> userList = userService.getUsers();
         ApiResponse response = new ApiResponse(OK, request);
         response.setMessage(userList);
+
+        return new ResponseEntity<>(response, OK);
+    }
+
+    @GetMapping("signingoogle")
+    public ResponseEntity<ApiResponse> signInGoogle(HttpServletRequest request,
+                                                    @Valid @RequestBody SignInGoogleRequest signInGoogleRequest) {
+        String token = signInGoogleRequest.getJwt();
+        ApiResponse response = new ApiResponse(OK, request);
+        response.setMessage("User with jwt " + token + " signed in.");
 
         return new ResponseEntity<>(response, OK);
     }
