@@ -2,13 +2,12 @@ package com.tmpserver.tmpserver.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,11 +15,16 @@ import java.util.Map;
 public class ApiResponse {
 
     private Instant timestamp;
-    private HttpStatus status;
+    private int statusCode;
+    private String status;
     private String path;
+    private Map<String, String> errors;
+    private Object message;
 
-    public ApiResponse(HttpStatus httpStatus) {
+    public ApiResponse(HttpStatus httpStatus, HttpServletRequest request) {
         timestamp = Instant.now();
-        status = httpStatus;
+        statusCode = httpStatus.value();
+        status = httpStatus.name();
+        path = request.getRequestURI();
     }
 }
